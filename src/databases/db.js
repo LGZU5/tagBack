@@ -168,19 +168,6 @@ const getUserData = async (email) => {
     }
 };
 
-const getProfilePhoto = async (email) => {
-    try {
-        const connection = await pool.getConnection();
-        const query = 'SELECT * FROM data_users WHERE email = ?';
-        const [result] = await connection.query(query, [email]);
-        connection.release();
-
-        return result;
-    } catch (error) {
-        throw error;
-    }
-};
-
 const editImageBanner = async (email, fileLocationWithoutPublic) => {
     try {
         const connection = await pool.getConnection();
@@ -312,20 +299,6 @@ const editLinks = async (storedIdNumber, editLink, selectedTextValue) => {
     }
 }
 
-
-const editTesteo = async (email, fileLocationWithoutPublic) => {
-    try {
-        const connection = await pool.getConnection();
-        const query = 'UPDATE data_users SET logo = ? WHERE email = ?';
-        const values = [fileLocationWithoutPublic, email];
-        const [result] = await connection.query(query, values);
-        connection.release();
-        return result;
-    } catch (error) {
-        throw error;
-    }
-};
-
 module.exports = {
     signUp,
     createName,
@@ -334,7 +307,6 @@ module.exports = {
     insertImageURL,
     Login,
     getUserData,
-    getProfilePhoto,
     editImageBanner,
     addLinks,
     getLinksWithColumnNames,
@@ -342,5 +314,4 @@ module.exports = {
     updateParraf,
     deleteImages,
     editLinks,
-    editTesteo
 };
