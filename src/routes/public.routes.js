@@ -1,18 +1,34 @@
-// const express = require('express');
-// const router = express.Router();
-// const db = require('../databases/db');
+const express = require('express');
+const router = express.Router();
+const db = require('../databases/db');
 
-// router.get('/:usuario', (req, res) => {
-//     const usuario = req.params.usuario;
+router.get('/:nickname', async (req, res) => {
+    const nickname = req.params.nickname;
 
-//     // Verifica si el usuario existe (aquí asumimos que hay una función obtenerDatosDelUsuario)
-//     const userData = obtenerDatosDelUsuario(usuario);
+    try {
+        // Wait for the promise to resolve
+        const userData = await db.getNickData(nickname);
 
-//     if (userData) {
-//         // Renderiza la página del usuario con los datos correspondientes
-//         res.render('usuario', { usuario: userData });
-//     } else {
-//         // Renderiza la plantilla personalizada "noEncontrado" en lugar de redirigir a una página de error
-//         res.render('noEncontrado');
-//     }
-// });
+        if (Array.isArray(userData) && userData.length > 0) {
+            const id_user = userData[0].id;
+
+            console.log(id_user)
+
+            const linksUser = await db.getLinksWithColumnNames(id_user);
+
+            console.log(linksUser)
+
+            // Render the user page with the corresponding data
+            res.render('plantilla', { userData, linksUser });
+        } else {
+            // Render a custom "not found" template instead of redirecting to an error page
+            res.status(400);
+        }
+    } catch (error) {
+        // Handle errors if the promise is rejected
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+module.exports = router;

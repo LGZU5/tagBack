@@ -33,9 +33,9 @@ const signUp = async (email, cryptPass) => {
         const [insertResult] = await connection.query(insertQuery, insertValues);
 
         if (insertResult.affectedRows === 1) {
-            console.log('exito al ingresar el dato')
+            console.log('exito al ingresar el id en links_usuarios')
         } else {
-            console.log('f')
+            console.log('no se pudo ingresar el id en links_usuarios')
         }
 
         var emailToSend = `Mailto:${email}`
@@ -44,11 +44,10 @@ const signUp = async (email, cryptPass) => {
         const insertValues2 = [emailToSend, userId];
         const [insertResult2] = await connection.query(insertQuery2, insertValues2);
         if (insertResult2.affectedRows === 1) {
-            console.log('exito al ingresar el dato')
+            console.log('exito al ingresar el email en links_usuarios')
         } else {
-            console.log('f')
+            console.log('no se pudo ingresar el email en links_usuarios')
         }
-
         connection.release();
         return result;
     } catch (error) {
@@ -56,12 +55,21 @@ const signUp = async (email, cryptPass) => {
     }
 };
 
-const createName = async (insertId, name) => {
+const createName = async (insertId, name, nickname) => {
     try {
         const connection = await pool.getConnection();
         const query = 'UPDATE data_users SET name = ? WHERE id = ?';
         const values = [name, insertId];
         const [result] = await connection.query(query, values);
+
+        const queryNickname = 'UPDATE data_users SET nickname = ? WHERE id = ?'
+        const valuesNickname = [nickname, insertId] 
+        const [resultNickname] = await connection.query(queryNickname, valuesNickname);
+        if (resultNickname) {
+            console.log(`nickname ${nickname} fue creado satisfactoriamente`);
+        } else {
+            console.log("fallo al crear el nickname");
+        }
         connection.release();
         return result;
     } catch (error) {
@@ -103,7 +111,7 @@ const updatePhoneNumber = async (insertId, fullPhoneNumber, fullWhatsapp) => {
         if (resultWhatsapp.affectedRows === 1) {
             console.log('exito al ingresar el wasa')
         } else {
-            console.log('f')
+            console.log('no se pudo ingresar el wasa')
         }
         connection.release();
         return result;
@@ -125,11 +133,11 @@ const getUserName = async (insertId) => {
     }
 };
 
-const insertImageURL = async (userId, fileLocationWithoutPublic) => {
+const insertImageURL = async (email, fileLocationWithoutPublic) => {
     try {
         const connection = await pool.getConnection();
-        const query = 'UPDATE data_users SET profile_image_url = ? WHERE id = ?';
-        const values = [fileLocationWithoutPublic, userId];
+        const query = 'UPDATE data_users SET profile_image_url = ? WHERE email = ?';
+        const values = [fileLocationWithoutPublic, email];
         const [result] = await connection.query(query, values);
         connection.release();
         return result;
@@ -168,6 +176,19 @@ const getUserData = async (email) => {
     }
 };
 
+const getNickData = async (nickname) => {
+    try {
+        const connection = await pool.getConnection();
+        const query = 'SELECT * FROM data_users WHERE nickname = ?';
+        const [result] = await connection.query(query, [nickname]);
+        connection.release();
+
+        return result;
+    } catch (error) {
+        throw error;
+    }
+};
+
 const editImageBanner = async (email, fileLocationWithoutPublic) => {
     try {
         const connection = await pool.getConnection();
@@ -184,14 +205,11 @@ const editImageBanner = async (email, fileLocationWithoutPublic) => {
 const addLinks = async (selectedTextValue, userInput, storedIdNumber) => {
     try {
         const connection = await pool.getConnection();
-        console.log(`${selectedTextValue} ${userInput} ${storedIdNumber}`)
         const query = `UPDATE links_usuarios SET ${selectedTextValue} = ? WHERE id_user = ?`;
         const values = [userInput, storedIdNumber];
         const [result] = await connection.query(query, values);
-        console.log('Valores de los parámetros:', selectedTextValue, userInput, storedIdNumber);
-        console.log('Consulta SQL:', query, values);
         connection.release();
-        console.log('Inserción exitosa en la base de datos:', result);
+        console.log('Inserción exitosa de los links en la base de datos:', result);
         return result;
     } catch (error) {
         console.error("Error en addLinks:", error);
@@ -226,8 +244,6 @@ const getLinksWithColumnNames = async (userId) => {
     }
 }
 
-
-
 const updateParraf = async (editParraf, idUser) => {
     try {
         const connection = await pool.getConnection();
@@ -238,7 +254,7 @@ const updateParraf = async (editParraf, idUser) => {
 
         if (result.affectedRows > 0) {
             // Update was successful
-            console.log('ok')
+            console.log('descripcion actualizada')
             return { success: true };
         } else {
             // No rows were affected, possibly because the user ID doesn't exist
@@ -314,4 +330,5 @@ module.exports = {
     updateParraf,
     deleteImages,
     editLinks,
+    getNickData
 };

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil de <%= userData && userData[0] && userData[0].name ? userData[0].name : 'Usuario no encontrado' %> |
+            Tagnet</title>
+    <link rel="stylesheet" href="/plantilla.css">
+</head>
+
+<body>
+    <div id="container">
+        <div>
+            <img class="logo" src="/static/logoLight.png" alt="logo"
+        </div>
+        <% if (userData && userData.length> 0) { %>
+            <div class="imageBanner-container">
+                <img class="img2" src="http://192.168.1.30:8080<%= userData[0].banner_image %>" alt="banner">
+            </div>
+            <div class="imageProfile-container">
+                <img class="img" src="http://192.168.1.30:8080<%= userData[0].profile_image_url %>"
+                    alt="Imagen de Perfil">
+            </div>
+            <div class="name-container">
+                <h1 class="name">
+                    <%= userData[0].name %>
+                </h1>
+            </div>
+            <div class="description-container">
+                <p>
+                    <%= userData[0].description %>
+                </p>
+            </div>
+            <% } else { %>
+                <p>Usuario no encontrado.</p>
+                <% } %>
+    </div>
+</body>
+
+</html>

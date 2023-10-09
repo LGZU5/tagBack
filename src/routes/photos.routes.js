@@ -33,12 +33,12 @@ router.post('/uploadBanner', filesUploaded, async (req, res) => {
 router.post('/uploadImage', filesUploaded, async (req, res) => {
     try {
         const fileLocation = req.file.path; // Ubicación del archivo en el servidor
-        const userId = req.body.userId;
+        const email = req.body.email;
         console.log(req.file);
         const fileLocationWithoutPublic = fileLocation.replace('\public', '');
 
         // Guarda la ruta de la imagen en la base de datos o en algún otro lugar, si es necesario
-        await db.insertImageURL(userId, fileLocationWithoutPublic);
+        await db.insertImageURL(email, fileLocationWithoutPublic);
 
         // Envía la ruta de la imagen como parte de la respuesta JSON
         res.status(201).json({ message: "Image uploaded successfully", imageUrl: fileLocationWithoutPublic });

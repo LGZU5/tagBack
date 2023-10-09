@@ -8,6 +8,7 @@ const numberRoute = require('./src/routes/number.routes');
 const photosRoute = require('./src/routes/photos.routes');
 const getInfo = require('./src/routes/get.routes');
 const links = require('./src/routes/links.routes');
+const public = require('./src/routes/public.routes');
 
 
 const app = express();
@@ -29,6 +30,7 @@ app.use(numberRoute);
 app.use(photosRoute);
 app.use(getInfo);
 app.use(links);
+app.use(public);
 
 app.listen(8080, () => {
     console.log("Server running on port 8080");
