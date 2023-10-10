@@ -4,15 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil de <%= userData && userData[0] && userData[0].name ? userData[0].name : 'Usuario no encontrado' %> |
+    <title>@<%= userData && userData[0] && userData[0].nickname ? userData[0].nickname : 'Usuario no encontrado' %> |
             Tagnet</title>
-    <link rel="stylesheet" href="/plantilla.css">
+    <link rel="stylesheet" href="/styles/plantilla.css">
+    <link rel="icon" href="/icons/favicon.ico">
 </head>
 
 <body>
     <div id="container">
         <div>
-            <img class="logo" src="/static/logoLight.png" alt="logo"
+            <img class="logo" src="/static/logoLight.png" alt="logo">
         </div>
         <% if (userData && userData.length> 0) { %>
             <div class="imageBanner-container">
@@ -28,14 +29,42 @@
                 </h1>
             </div>
             <div class="description-container">
-                <p>
+                <p class="description">
                     <%= userData[0].description %>
                 </p>
             </div>
-            <% } else { %>
-                <p>Usuario no encontrado.</p>
-                <% } %>
+            <div class="app-container">
+                <div class="button-container">
+                    <% for (const key in linksUser) { %>
+                        <div class="container2">
+                            <button class="button" data-value="<%= linksUser[key] %>">
+                                <img class="imageButtons" src="<%= imageMappings[key] %>" alt="<%= key %> Image">
+                            </button>
+                            <p class="button-label">
+                                <%= key %>
+                            </p>
+                        </div>
+                        <% } %>
+                </div>
+            </div>
+
+            <script>
+                const buttons = document.querySelectorAll('.button');
+
+                buttons.forEach(button => {
+                    button.addEventListener('click', function () {
+                        const value = this.getAttribute('data-value');
+                        if (value) {
+                            window.open(value, '_blank'); // Abre el enlace en una nueva pestaña
+                        }
+                    });
+                });
+            </script>
     </div>
+    <% } else { %>
+        <p>Usuario no encontrado.</p>
+        <% } %>
+            </div>
 </body>
 
 </html>
