@@ -9,7 +9,7 @@ body {
     margin: 0;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 767px) {
 
     #container {
         width: 100%;
@@ -20,12 +20,13 @@ body {
 
     .logo {
         margin-top: 6px;
+        margin-bottom: 10px;
         width: 30%;
     }
 
     .imageBanner-container {
-        height: 180px;
-        width: 92%;
+        height: 22%;
+        width: 90%;
         z-index: 1;
         margin: 0 auto;
     }
@@ -34,7 +35,7 @@ body {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        border-radius: 4%;
+        border-radius: 20px;
     }
 
     .imageProfile-container {
@@ -42,7 +43,6 @@ body {
         z-index: 2;
         margin: 0 auto;
         margin-top: -18%;
-        border: 0.3px solid #fff;
     }
 
     .img {
@@ -50,6 +50,7 @@ body {
         height: 100%;
         object-fit: cover;
         border-radius: 100%;
+        border: 1px solid #fff;
     }
 
     .name-container {
@@ -84,6 +85,8 @@ body {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
+        width: 90%;
+        margin: 0 auto;
         gap: 3%;
     }
 
@@ -103,7 +106,7 @@ body {
         border: 0px;
         border-radius: 22%;
         background-color: transparent;
-        width: 75%;
+        width: 80%;
         box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
     }
 
@@ -131,29 +134,29 @@ body {
     .logo {
         margin-top: 10px;
         margin-bottom: 7px;
-        width: 30%;
+        width: 15%;
     }
 
     .imageBanner-container {
-        width: 90%;
+        width: 70%;
+        height: 230px;
         z-index: 1; 
-        margin: auto 0;
+        margin: 0 auto;
     }
 
     .img2 {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        border-radius: 4%;
-        margin: auto 0;
+        border-radius: 20px;
+        margin: 0 auto;
     }
 
     .imageProfile-container {
         width: 30%;
         z-index: 2;
+        margin: 0 auto; 
         margin-top: -18%;
-        border: 0.3px solid #fff;
-        margin: auto 0;
     }
 
     .img {
@@ -161,6 +164,7 @@ body {
         height: 100%;
         object-fit: cover;
         border-radius: 100%;
+        border: 0.3px solid #fff;
     }
 
     .name-container {
@@ -196,6 +200,8 @@ body {
         flex-wrap: wrap;
         justify-content: center;
         gap: 3%;
+        width: 80%;
+        margin: 0 auto;
     }
 
     .container2 {
@@ -214,7 +220,7 @@ body {
         border: 0px;
         border-radius: 22%;
         background-color: transparent;
-        width: 50%;
+        width: 65%;
         box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
     }
 
@@ -275,7 +281,6 @@ body {
         z-index: 2;
         margin: 0 auto;
         margin-top: -15%;
-        border: 0.3px solid #fff;
     }
 
     .img {
@@ -283,6 +288,7 @@ body {
         width: 100%;
         object-fit: cover;
         border-radius: 100%;
+        border: 0.3px solid #fff;
     }
 
     .name-container {
@@ -391,7 +397,7 @@ body {
         height: 100%;
         width: 100%;
         object-fit: cover;
-        border-radius: 4%;
+        border-radius: 20px;
     }
 
     .imageProfile-container {
