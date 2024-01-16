@@ -1,0 +1,140 @@
+body {
+    margin: 0;
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    height: 100%;
+    line-height: 1.7;
+    vertical-align: baseline;
+    color: #fff;
+    background-color: #fff;
+}
+
+.template1 {
+    background-color: #ffffff;
+    width: 100%;
+    min-height: 100vh;
+    display: grid;
+    position: relative;
+    z-index: 1;
+}
+
+.container {
+    display: flex;
+}
+
+.izquierda {
+    padding: 70px calc(9vw + 70px) 70px 70px;
+    position: relative;
+    z-index: 1;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.derecha {
+    width: 50%;
+}
+
+.container-video {
+    position: absolute;
+    z-index: 0;
+    min-width: 100%;
+    min-height: 100%;
+    left: 0px;
+    top: 0px;
+    overflow: hidden;
+    opacity: 1;
+    background-image: none;
+}
+
+.video {
+    position: absolute;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    overflow: hidden;
+    opacity: 1;
+    user-select: none;
+    /* margin-top: -119.862px;
+    margin-left: -721px; */
+    max-width: initial;
+}
+
+.overlay {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+.contenido-izquierda {
+    display: grid;
+    row-gap: 60px;
+    align-items: center;
+    height: 100%;
+    z-index: 3;
+}
+
+.logo-link {
+    margin-bottom: 30px;
+    display: inline;
+    max-width: 35vw;
+}
+.logo {
+    width: 30%;
+    height: auto;
+}
+
+h1 {
+    font-size: 55px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+ul {
+    list-style: outside none none;
+    margin: 0;
+    padding: 0;
+}
+li {
+    display: inline-block;
+    margin-right: 16px;
+    margin-bottom: 8px;
+}
+
+li a img {
+    width: 50px; 
+    height: 50px; 
+}
+
+.container-list {
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    display: flex;
+}
+
+.contenido-derecha {
+    display: flex;
+    height: 100%;
+    align-items: center;
+}
+
+.form {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    position: relative;
+    z-index: 1;
+    margin-left: -9vw;
+    max-width: 770px;
+    width: 100%;
+    background-color: #ffffff;
+    padding: 70px;
+    border-radius: 70px;
+    box-shadow: 0 0 100px 0 rgba(0, 0, 0, 0.09)
+}
