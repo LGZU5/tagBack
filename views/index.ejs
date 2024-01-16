@@ -7,6 +7,7 @@
     <title>My tagnet pro</title>
     <link rel="icon" href="/static/favicon.ico">
     <link rel="stylesheet" href="/styles/index.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 
 <body>
@@ -60,13 +61,160 @@
             </div>
             <div class="derecha">
                 <div class="contenido-derecha">
-                    <div class="form">
-
+                    <div id="form-container" class="flip-container">
+                        <div class="front">
+                            <h2 class="title-3">Registrarse</h2>
+                            <span id="step-info">Paso 1 de 3</span>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0"
+                                    aria-valuemax="100"></div>
+                            </div>
+                            <form id="form-register">
+                                <div class="form-step">
+                                    <h2 class="title-2">
+                                        Información Personal
+                                    </h2>
+                                    <div class="form-group">
+                                        <input id="name" type="text" class="form-control" name="name"
+                                            placeholder="Name">
+                                    </div>
+                                    <div class="form-group">
+                                        <input id="email" type="email" class="form-control" name="email"
+                                            placeholder="Email">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="phone">
+                                                <input id="phone" type="text" class="form-control" name="phone"
+                                                    placeholder="Phone">
+                                            </div>
+                                            <div class="age">
+                                                <input id="age" type="text" class="form-control" name="age"
+                                                    placeholder="Age">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="gender">
+                                            <h3 class="title-2">
+                                                Selecciona un Genero
+                                            </h3>
+                                        </div>
+                                        <div class="container-gender">
+                                            <div>
+                                                <input class="form-check-input" type="radio" name="radio-gender"
+                                                    id="radio-male">
+                                                <label class="radio-label" for="radio-male">Hombre</label>
+                                            </div>
+                                            <div>
+                                                <input class="form-check-input" type="radio" name="radio-gender"
+                                                    id="radio-male">
+                                                <label class="radio-label" for="radio-female">Mujer</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="next-step">
+                                            <input type="button" name="next" class="next-button" value="Siguiente">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-step">
+                                    <h2 class="title-2">
+                                        Información Empresarial
+                                    </h2>
+                                    <div class="form-group">
+                                        <input id="empresa" type="text" class="form-control" name="empresa"
+                                            placeholder="Empresa">
+                                    </div>
+                                    <div class="form-group-buttons">
+                                        <div class="previous-step">
+                                            <input type="button" name="previous" class="previous-button"
+                                                value="Anterior">
+                                        </div>
+                                        <div class="next-step">
+                                            <input type="button" name="next" class="next-button" value="Siguiente">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="form-group">
+                                <p class="radio-label">¿Ya eres usuario de tagnet? <input type="button" name="login"
+                                        class="login-button change-button" value="Iniciar Sesión"></p>
+                            </div>
+                        </div>
+                        <div class="back">
+                            <h2 class="title-3">
+                                Iniciar Sesión
+                            </h2>
+                            <form action="post">
+                                
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <script>
+        $(document).ready(function () {
+            // Al cargar la página, ocultar todos los form-steps excepto el primero
+            $('.form-step').not(':first').hide();
+
+            // Configurar la barra de progreso
+            var totalSteps = $('.form-step').length;
+            var currentStep = 1;
+            var progressBar = $('.progress-bar');
+            var stepInfo = $('#step-info');
+
+            updateProgressBar();
+
+            // Al hacer clic en el botón "Next"
+            $('.next-button').click(function () {
+                // Ocultar el form-step actual
+                $(this).closest('.form-step').hide();
+
+                // Mostrar el siguiente form-step
+                var nextStep = $(this).closest('.form-step').next('.form-step');
+                nextStep.show();
+
+                // Actualizar el progreso
+                currentStep++;
+                updateProgressBar();
+            });
+
+            $('.previous-button').click(function () {
+                // Ocultar el form-step actual
+                $(this).closest('.form-step').hide();
+
+                // Mostrar el form-step anterior
+                var prevStep = $(this).closest('.form-step').prev('.form-step');
+                prevStep.show();
+
+                // Actualizar el progreso
+                currentStep--;
+                updateProgressBar();
+            });
+
+            function updateProgressBar() {
+                var progress = (currentStep / totalSteps) * 100;
+                progressBar.width(progress + '%').attr('aria-valuenow', progress);
+
+                // Actualizar el label del paso actual
+                stepInfo.text('Paso ' + currentStep + ' de ' + totalSteps);
+            }
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Manejar clic en el botón de iniciar sesión
+            $('.login-button').click(function () {
+                $('#form-container').toggleClass('flipped');
+            });
+        });
+
+    </script>
 </body>
 
 </html>

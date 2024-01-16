@@ -11,7 +11,7 @@ body {
 }
 
 .template1 {
-    background-color: #ffffff;
+    background-color: #F0F0F0;
     width: 100%;
     min-height: 100vh;
     display: grid;
@@ -85,6 +85,7 @@ body {
     display: inline;
     max-width: 35vw;
 }
+
 .logo {
     width: 30%;
     height: auto;
@@ -101,6 +102,7 @@ ul {
     margin: 0;
     padding: 0;
 }
+
 li {
     display: inline-block;
     margin-right: 16px;
@@ -108,8 +110,13 @@ li {
 }
 
 li a img {
-    width: 50px; 
-    height: 50px; 
+    width: 50px;
+    height: 50px;
+}
+
+.title-3 {
+    color: #14133b;
+    font-size: 25px;
 }
 
 .container-list {
@@ -125,16 +132,178 @@ li a img {
     align-items: center;
 }
 
-.form {
+#form-container {
     margin-top: 30px;
     margin-bottom: 30px;
     position: relative;
     z-index: 1;
     margin-left: -9vw;
-    max-width: 770px;
-    width: 100%;
+    /* max-width: 770px; */
+    width: 80%;
     background-color: #ffffff;
-    padding: 70px;
+    padding: 30px 90px 110px 70px;
     border-radius: 70px;
-    box-shadow: 0 0 100px 0 rgba(0, 0, 0, 0.09)
+    box-shadow: 0 0 100px 0 rgba(0, 0, 0, 0.1)
+}
+
+.row {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 40px;
+}
+
+.container-gender {
+    align-items: center;
+    gap: 1.5rem;
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.next-step {
+    align-items: center;
+    column-gap: 1rem;
+    display: flex;
+
+}
+
+.title-2 {
+    margin-top: 0px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #14133b;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    margin-bottom: 25px;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 45px;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    box-shadow: none;
+    padding: 10px 0px 10px 20px;
+    color: #111;
+}
+
+.radio-label {
+    color: #14133b;
+}
+
+.phone {
+    width: 61%;
+}
+
+.age {
+    width: 30%;
+}
+
+.next-button,
+.previous-button {
+    /* Mantén los estilos comunes para ambos botones */
+    font-family: 'Roboto', sans-serif;
+    cursor: pointer;
+    margin-right: 5px;
+    font-size: 15px;
+    font-weight: 400;
+    box-shadow: none;
+    outline: none;
+    border: 1px solid;
+    color: #fff;
+    border-radius: 45px;
+    padding: 9px 20px; /* Ajusta el espaciado según tu preferencia */
+    transition: all 0.3s ease-in-out;
+    background-color: #ff9045;
+}
+
+#step-info {
+    color: #14133b;
+}
+
+.progress {
+    height: 10px; /* Ajusta la altura según tus preferencias */
+    width: 105%; /* Ajusta el ancho según tus preferencias */
+    background-color: #E3E4E2;
+    border-radius: 25px;
+    margin-bottom: 35px;
+    margin-top: 15px;
+}
+
+.progress-bar {
+    border-radius: 25px;
+    height: 100%;
+    transition: width 0.5s ease;
+}
+
+/* Establece el color de la parte completada de la barra de progreso */
+.progress-bar[aria-valuenow] {
+    width: calc(var(--porcentaje-completado, 0) * 1%);
+    background-color: #ff9045; 
+}
+
+.form-group-buttons {
+    display: flex;
+}
+
+.flip-container {
+    perspective: 1000px;
+}
+
+.flip-container {
+    width: 100%;
+    height: 70vh;
+}
+
+.flip-container {
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+    
+}
+
+.flip-container.flipped {
+    transform: rotateY(180deg);
+}
+
+.front,
+.back {
+    backface-visibility: hidden;
+    display: block;
+    visibility: visible; 
+}
+
+.back {
+    transform: rotateY(180deg);
+    display: none;
+    visibility: hidden;
+}
+
+.flip-container.flipped .front {
+    display: none;
+    visibility: hidden;
+}
+
+.flip-container.flipped .back {
+    display: block;
+    visibility: visible;
+}
+
+.change-button {
+    font-family: 'Roboto', sans-serif;
+    cursor: pointer;
+    font-size: 17px;
+    box-shadow: none;
+    outline: none;
+    border: 0;
+    color: #14133b;
+    padding: 0px; /* Ajusta el espaciado según tu preferencia */
+    background-color: transparent;
 }
