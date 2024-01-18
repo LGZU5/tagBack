@@ -5,7 +5,10 @@ const jwt = require('jsonwebtoken');
 const db = require('../databases/db')
 
 const secretKey = 'abcdefghijk';
-
+/*jwt.sign({ foo: 'bar' }, privateKey, { algorithm: 'RS256' }, function(err, token) {
+    console.log(token);
+});
+*/
 router.post("/login", async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -26,5 +29,10 @@ router.post("/login", async (req, res) => {
         res.status(500).json({ error: "Error al procesar la solicitud" });
     }
 });
+
+
+
+
+
 
 module.exports = router

@@ -1,0 +1,4 @@
+// Coneccion a la base de datos
+use("db")
+
+db.user.find({})

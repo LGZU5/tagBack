@@ -2,12 +2,75 @@ const mysql = require('mysql2')
 const dotenv = require('dotenv') // Importa la librería dotenv
 dotenv.config(); // Carga las variables de entorno desde el archivo .env
 
+
+const { MongoClient } = require('mongodb');//Login
+
+
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME
 }).promise();
+
+
+
+
+
+// const bcrypt = require('bcrypt'); // Asegúrate de tener instalada la biblioteca bcrypt
+
+// const signUp = async (email, plainTextPassword) => {
+//     const uri = 'tu_uri_de_conexion_a_MongoDB';
+//     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+//     try {
+//         await client.connect();
+
+//         const database = client.db('nombre_de_tu_base_de_datos');
+//         const usersCollection = database.collection('data_users');
+//         const linksCollection = database.collection('links_usuarios');
+
+//         // Verificar si el correo electrónico ya existe
+//         const emailExists = await usersCollection.countDocuments({ email: email });
+//         if (emailExists > 0) {
+//             throw new Error('El correo electrónico ya está registrado');
+//         }
+
+//         // Hashear la contraseña antes de almacenarla en la base de datos
+//         const hashedPassword = await bcrypt.hash(plainTextPassword, 10);
+
+//         // Insertar en la colección 'data_users'
+//         const result = await usersCollection.insertOne({ email: email, password: hashedPassword });
+//         const userId = result.insertedId;
+
+//         console.log(userId);
+
+//         // Insertar en la colección 'links_usuarios'
+//         const insertResult = await linksCollection.insertOne({ id_user: userId });
+//         if (insertResult.insertedCount === 1) {
+//             console.log('Éxito al ingresar el id en links_usuarios');
+//         } else {
+//             console.log('No se pudo ingresar el id en links_usuarios');
+//         }
+
+//         // Actualizar el campo 'Email' en 'links_usuarios'
+//         const emailToSend = `Mailto:${email}`;
+//         const updateResult = await linksCollection.updateOne({ id_user: userId }, { $set: { Email: emailToSend } });
+//         if (updateResult.modifiedCount === 1) {
+//             console.log('Éxito al ingresar el email en links_usuarios');
+//         } else {
+//             console.log('No se pudo ingresar el email en links_usuarios');
+//         }
+
+//         return result;
+//     } catch (error) {
+//         throw error; // Asegúrate de lanzar la excepción original
+//     } finally {
+//         await client.close();
+//     }
+// };
+
+
 
 
 const signUp = async (email, cryptPass) => {
@@ -54,6 +117,8 @@ const signUp = async (email, cryptPass) => {
         throw error; // Asegúrate de lanzar la excepción original
     }
 };
+
+
 
 const createName = async (insertId, name, nickname) => {
     try {
@@ -146,6 +211,39 @@ const insertImageURL = async (email, fileLocationWithoutPublic) => {
     }
 }
 
+
+
+
+
+const Login = async (email) => {
+    const uri = 'mongodb://localhost:27017/db';
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+    try {
+        await client.connect();
+
+        //db = database
+        const database = client.db('db');
+
+        const collection = database.collection('data_users');
+
+        const user = await collection.findOne({ email: email });
+
+        if (!user) {
+            return null; // Usuario no encontrado
+        }
+
+        return user;
+    } catch (error) {
+        console.error("Error en la conexión a la base de datos:", error.message);
+        throw error; // Asegúrate de lanzar la excepción original
+    } finally {
+        await client.close();
+    }
+};
+
+
+/*
 const Login = async (email) => {
     try {
         const connection = await pool.getConnection();
@@ -162,6 +260,7 @@ const Login = async (email) => {
         throw error; // Asegúrate de lanzar la excepción original
     }
 }
+*/
 
 const getUserData = async (email) => {
     try {
