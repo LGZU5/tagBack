@@ -1,0 +1,9 @@
+// Coneccion a la base de datos
+use("db")
+
+db.user.insertOne({
+    nombre: "Juanito",
+    apellido: "XD",
+    correo: "ejemplo@example.com",
+    password: "<PASSWORD>"
+})
