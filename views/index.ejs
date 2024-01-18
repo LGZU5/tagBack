@@ -69,53 +69,29 @@
                                 <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0"
                                     aria-valuemax="100"></div>
                             </div>
-                            <form id="form-register">
+                            <form action="/signup" id="form-register" method="post">
                                 <div class="form-step">
                                     <h2 class="title-2">
                                         Información Personal
                                     </h2>
                                     <div class="form-group">
-                                        <input id="name" type="text" class="form-control" name="name"
-                                            placeholder="Name">
-                                    </div>
-                                    <div class="form-group">
                                         <input id="email" type="email" class="form-control" name="email"
-                                            placeholder="Email">
+                                            placeholder="Correo">
                                     </div>
                                     <div class="form-group">
-                                        <div class="row">
-                                            <div class="phone">
-                                                <input id="phone" type="text" class="form-control" name="phone"
-                                                    placeholder="Phone">
-                                            </div>
-                                            <div class="age">
-                                                <input id="age" type="text" class="form-control" name="age"
-                                                    placeholder="Age">
-                                            </div>
-                                        </div>
+                                        <input id="password" type="password" class="form-control" name="password"
+                                            placeholder="Contraseña">
                                     </div>
                                     <div class="form-group">
-                                        <div class="gender">
-                                            <h3 class="title-2">
-                                                Selecciona un Genero
-                                            </h3>
-                                        </div>
-                                        <div class="container-gender">
-                                            <div>
-                                                <input class="form-check-input" type="radio" name="radio-gender"
-                                                    id="radio-male">
-                                                <label class="radio-label" for="radio-male">Hombre</label>
-                                            </div>
-                                            <div>
-                                                <input class="form-check-input" type="radio" name="radio-gender"
-                                                    id="radio-male">
-                                                <label class="radio-label" for="radio-female">Mujer</label>
-                                            </div>
-                                        </div>
+                                        <input id="confirm-password" type="password" class="form-control" name="confirm-password"
+                                            placeholder="Confirmar Contraseña">
                                     </div>
                                     <div class="form-group">
-                                        <div class="next-step">
+                                        <!-- <div class="next-step">
                                             <input type="button" name="next" class="next-button" value="Siguiente">
+                                        </div> -->
+                                        <div class="next-step">
+                                            <input type="submit" name="Enviar" class="previous-button" value="Enviar">
                                         </div>
                                     </div>
                                 </div>
@@ -145,7 +121,7 @@
                         </div>
                         <div class="back">
                             <h2 class="title-3">
-                            
+
                                 ¡Bienvenido de Vuelta!
                             </h2>
                             <form id="form-login">
@@ -168,7 +144,7 @@
                             </form>
                             <div class="form-group">
                                 <p class="radio-label">¿Aun no te haz registrado? <input type="button" name="login"
-                                        class="login-button change-button" value="Iniciar Sesión"></p>
+                                        class="login-button change-button" value="Registrarse"></p>
                             </div>
                         </div>
                     </div>
