@@ -1,125 +1,91 @@
-const mysql = require('mysql2')
 const dotenv = require('dotenv') // Importa la librería dotenv
 dotenv.config(); // Carga las variables de entorno desde el archivo .env
 
 
-const { MongoClient } = require('mongodb');//Login
+const { MongoClient } = require('mongodb');
 
 
-const pool = mysql.createPool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
-}).promise();
+const bcrypt = require('bcrypt');
+const mongoURI = 'mongodb://192.168.1.15:27017';
+const dbName = 'db';
+
+const signUp = async (email, cryptPass) => {
+    try {
+        const client = await MongoClient.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
+        const db = client.db(dbName);
+
+        // Verifica si el correo electrónico ya existe
+        const userCollection = db.collection('data_users');
+        const emailExists = await userCollection.findOne({ email });
+        if (emailExists) {
+            throw new Error('El correo electrónico ya está registrado');
+        }
+
+        // Inserta el nuevo usuario
+        const result = await userCollection.insertOne({ email, password: cryptPass });
+        const userId = result.insertedId;
+
+
+        client.close();
+        return result;
+    } catch (error) {
+        throw error;
+    }
+};
+
+module.exports = { signUp };
 
 
 
 
-
-// const bcrypt = require('bcrypt'); // Asegúrate de tener instalada la biblioteca bcrypt
-
-// const signUp = async (email, plainTextPassword) => {
-//     const uri = 'tu_uri_de_conexion_a_MongoDB';
-//     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-
+// //jesus
+// const signUp = async (email, cryptPass) => {
 //     try {
-//         await client.connect();
+//         const connection = await pool.getConnection();
 
-//         const database = client.db('nombre_de_tu_base_de_datos');
-//         const usersCollection = database.collection('data_users');
-//         const linksCollection = database.collection('links_usuarios');
-
-//         // Verificar si el correo electrónico ya existe
-//         const emailExists = await usersCollection.countDocuments({ email: email });
-//         if (emailExists > 0) {
+//         // Check if email already exists
+//         const emailExistsQuery = 'SELECT COUNT(*) as count FROM data_users WHERE email = ?';
+//         const [emailCount] = await connection.query(emailExistsQuery, [email]);
+//         if (emailCount[0].count > 0) {
 //             throw new Error('El correo electrónico ya está registrado');
 //         }
 
-//         // Hashear la contraseña antes de almacenarla en la base de datos
-//         const hashedPassword = await bcrypt.hash(plainTextPassword, 10);
+//         const query = 'INSERT INTO data_users (email, password) VALUES (?, ?)';
+//         const values = [email, cryptPass];
+//         const [result] = await connection.query(query, values);
 
-//         // Insertar en la colección 'data_users'
-//         const result = await usersCollection.insertOne({ email: email, password: hashedPassword });
-//         const userId = result.insertedId;
+//         const userId = result.insertId;
+//         console.log(userId)
 
-//         console.log(userId);
+//         const insertQuery = 'INSERT INTO links_usuarios (id_user) VALUES (?)';
+//         const insertValues = [userId]; // Puedes proporcionar otros valores para las columnas de 'otra_tabla'
+//         const [insertResult] = await connection.query(insertQuery, insertValues);
 
-//         // Insertar en la colección 'links_usuarios'
-//         const insertResult = await linksCollection.insertOne({ id_user: userId });
-//         if (insertResult.insertedCount === 1) {
-//             console.log('Éxito al ingresar el id en links_usuarios');
+//         if (insertResult.affectedRows === 1) {
+//             console.log('exito al ingresar el id en links_usuarios')
 //         } else {
-//             console.log('No se pudo ingresar el id en links_usuarios');
+//             console.log('no se pudo ingresar el id en links_usuarios')
 //         }
 
-//         // Actualizar el campo 'Email' en 'links_usuarios'
-//         const emailToSend = `Mailto:${email}`;
-//         const updateResult = await linksCollection.updateOne({ id_user: userId }, { $set: { Email: emailToSend } });
-//         if (updateResult.modifiedCount === 1) {
-//             console.log('Éxito al ingresar el email en links_usuarios');
-//         } else {
-//             console.log('No se pudo ingresar el email en links_usuarios');
-//         }
+//         var emailToSend = `Mailto:${email}`
 
+//         const insertQuery2 = 'UPDATE links_usuarios SET Email = ? WHERE id_user = ?';
+//         const insertValues2 = [emailToSend, userId];
+//         const [insertResult2] = await connection.query(insertQuery2, insertValues2);
+//         if (insertResult2.affectedRows === 1) {
+//             console.log('exito al ingresar el email en links_usuarios')
+//         } else {
+//             console.log('no se pudo ingresar el email en links_usuarios')
+//         }
+//         connection.release();
 //         return result;
 //     } catch (error) {
 //         throw error; // Asegúrate de lanzar la excepción original
-//     } finally {
-//         await client.close();
 //     }
 // };
 
 
-
-
-const signUp = async (email, cryptPass) => {
-    try {
-        const connection = await pool.getConnection();
-
-        // Check if email already exists
-        const emailExistsQuery = 'SELECT COUNT(*) as count FROM data_users WHERE email = ?';
-        const [emailCount] = await connection.query(emailExistsQuery, [email]);
-        if (emailCount[0].count > 0) {
-            throw new Error('El correo electrónico ya está registrado');
-        }
-
-        const query = 'INSERT INTO data_users (email, password) VALUES (?, ?)';
-        const values = [email, cryptPass];
-        const [result] = await connection.query(query, values);
-
-        const userId = result.insertId;
-        console.log(userId)
-
-        const insertQuery = 'INSERT INTO links_usuarios (id_user) VALUES (?)';
-        const insertValues = [userId]; // Puedes proporcionar otros valores para las columnas de 'otra_tabla'
-        const [insertResult] = await connection.query(insertQuery, insertValues);
-
-        if (insertResult.affectedRows === 1) {
-            console.log('exito al ingresar el id en links_usuarios')
-        } else {
-            console.log('no se pudo ingresar el id en links_usuarios')
-        }
-
-        var emailToSend = `Mailto:${email}`
-
-        const insertQuery2 = 'UPDATE links_usuarios SET Email = ? WHERE id_user = ?';
-        const insertValues2 = [emailToSend, userId];
-        const [insertResult2] = await connection.query(insertQuery2, insertValues2);
-        if (insertResult2.affectedRows === 1) {
-            console.log('exito al ingresar el email en links_usuarios')
-        } else {
-            console.log('no se pudo ingresar el email en links_usuarios')
-        }
-        connection.release();
-        return result;
-    } catch (error) {
-        throw error; // Asegúrate de lanzar la excepción original
-    }
-};
-
-
-
+// //jesus
 const createName = async (insertId, name, nickname) => {
     try {
         const connection = await pool.getConnection();
@@ -142,6 +108,7 @@ const createName = async (insertId, name, nickname) => {
     }
 };
 
+// //jesus
 const updateName = async (editName, idUser) => {
     try {
         const connection = await pool.getConnection();
@@ -162,6 +129,7 @@ const updateName = async (editName, idUser) => {
     }
 };
 
+// //jesus
 const updatePhoneNumber = async (insertId, fullPhoneNumber, fullWhatsapp) => {
     try {
         const connection = await pool.getConnection();
@@ -185,6 +153,7 @@ const updatePhoneNumber = async (insertId, fullPhoneNumber, fullWhatsapp) => {
     }
 };
 
+// //jesus
 const getUserName = async (insertId) => {
     try {
         const connection = await pool.getConnection();
@@ -198,6 +167,7 @@ const getUserName = async (insertId) => {
     }
 };
 
+// //jesus
 const insertImageURL = async (email, fileLocationWithoutPublic) => {
     try {
         const connection = await pool.getConnection();
@@ -216,7 +186,7 @@ const insertImageURL = async (email, fileLocationWithoutPublic) => {
 
 
 const Login = async (email) => {
-    const uri = 'mongodb://localhost:27017/db';
+    const uri = 'mongodb://192.168.1.15:27017/db';
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
     try {
@@ -243,7 +213,9 @@ const Login = async (email) => {
 };
 
 
+
 /*
+// //jesus
 const Login = async (email) => {
     try {
         const connection = await pool.getConnection();
@@ -262,6 +234,7 @@ const Login = async (email) => {
 }
 */
 
+// //jesus
 const getUserData = async (email) => {
     try {
         const connection = await pool.getConnection();
@@ -275,6 +248,7 @@ const getUserData = async (email) => {
     }
 };
 
+// //jesus
 const getNickData = async (nickname) => {
     try {
         const connection = await pool.getConnection();
@@ -288,6 +262,7 @@ const getNickData = async (nickname) => {
     }
 };
 
+// //jesus
 const editImageBanner = async (email, fileLocationWithoutPublic) => {
     try {
         const connection = await pool.getConnection();
@@ -301,6 +276,7 @@ const editImageBanner = async (email, fileLocationWithoutPublic) => {
     }
 }
 
+// //jesus
 const addLinks = async (selectedTextValue, userInput, storedIdNumber) => {
     try {
         const connection = await pool.getConnection();
@@ -316,6 +292,7 @@ const addLinks = async (selectedTextValue, userInput, storedIdNumber) => {
     }
 }
 
+// //jesus
 const getLinksWithColumnNames = async (userId) => {
     try {
         const connection = await pool.getConnection();
@@ -343,6 +320,7 @@ const getLinksWithColumnNames = async (userId) => {
     }
 }
 
+// //jesus
 const updateParraf = async (editParraf, idUser) => {
     try {
         const connection = await pool.getConnection();
@@ -366,6 +344,7 @@ const updateParraf = async (editParraf, idUser) => {
 
 };
 
+// //jesus
 const deleteImages = async (imagePath, imageType) => {
     try {
         const connection = await pool.getConnection();
@@ -401,6 +380,7 @@ const deleteImages = async (imagePath, imageType) => {
     }
 };
 
+// //jesus
 const editLinks = async (storedIdNumber, editLink, selectedTextValue) => {
     try {
         const connection = await pool.getConnection();
