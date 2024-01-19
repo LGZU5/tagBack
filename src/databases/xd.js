@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const db = require('../databases/signup');
-const uc = require('../databases/userCommands');
+const usercommands = require('.usercommands');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -10,7 +10,8 @@ const secretKey = process.env.SECRET_KEY;
 
 
 router.post('/signup', async (req, res) => {
-
+    console.log(req.body);
+    
     const name = req.body.name;
     const email = req.body.email;
     const password = req.body.password;
@@ -19,26 +20,27 @@ router.post('/signup', async (req, res) => {
     // Validación de formato de correo electrónico
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-        return res.status(400).json({status: 'error', error: "El formato del correo electrónico no es válido"});
+        return res.status(400).json({error: "El formato del correo electrónico no es válido"});
     }
 
     // Validación de correo electrónico único en la base de datos
     try {
         const emailExists = await db.checkEmailExists(email);
         if (emailExists) {
-            return res.status(400).json({status: 'error', error: "El correo electrónico ya está registrado"}); 
+            return res.status(400).json({error: "El correo electrónico ya está registrado"});
         }
     } catch (error) {
-        return res.status(500).json({status: 'error', error: `Error en la validación de correo electrónico: ${error.message}`});  
+        console.error(error);
+        return res.status(500).json({error: "Error en la validación de correo electrónico"});
     }
 
     // Validación de contraseña: mínimo 8 caracteres
     if (password.length < 8 || password !== confirmPassword) {
-        return res.status(400).json({status: 'error', error: "La contraseña no es valida"});   
+        return res.status(400).json({error: "La contraseña no es valida"});
     }
 
     try {
-        const link = await uc.nicknameGenerator(name);
+        const link = await nicknameGenerator.generate(name);
         // Encripta la contraseña antes de guardarla en la base de datos
         const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -46,10 +48,10 @@ router.post('/signup', async (req, res) => {
         const userId = await db.signUp(name, email, hashedPassword,link);
 
         // Respuesta exitosa
-        res.status(200).json({status: 'success', message: `Registro exitoso para ${email} con ID ${userId}`});
+        res.status(200).json({message: `Registro exitoso para ${email} con nombre ${name}, link ${link} , ID ${userId} `});
     } catch (error) {
         console.error(error);
-        res.status(500).json({status: 'error', error: "Error en el registro"});
+        res.status(500).json({error: "Error en el registro"});
     }
 });
 

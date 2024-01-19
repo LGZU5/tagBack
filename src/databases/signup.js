@@ -1,6 +1,6 @@
 const { connectDatabase, closeDatabase } = require('./db');
 
-async function signUp( email, cryptPass) {
+async function signUp(name, email, cryptPass, link) {
     const { client, db } = await connectDatabase();
 
     try {
@@ -8,8 +8,18 @@ async function signUp( email, cryptPass) {
 
         // Inserta el nuevo usuario
         const result = await usuarios.insertOne({
+            nameCount: name,
             email: email,
             password: cryptPass,
+            password: cryptPass,
+            premium: "false",
+            perfil1:{
+                name: "",
+                telefono: "",
+                foto: "",
+                links: [link],
+                apps: [[]]
+            }
         });
         const userId = result.insertedId;
 
