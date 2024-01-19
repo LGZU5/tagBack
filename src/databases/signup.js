@@ -1,4 +1,5 @@
 const { connectDatabase, closeDatabase } = require('./db');
+const UserModel = require('./modeloUsers');
 
 async function signUp(email, cryptPass) {
     const { client, db } = await connectDatabase();
