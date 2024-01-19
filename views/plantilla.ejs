@@ -4,135 +4,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My tagnet pro</title>
+    <title>@<%= userData && userData[0] && userData[0].nickname ? userData[0].nickname : 'Usuario no encontrado' %> |
+            Tagnet</title>
+    <link rel="stylesheet" href="/styles/plantilla.css">
     <link rel="icon" href="/static/favicon.ico">
-    <link rel="stylesheet" href="/styles/index.css">
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 
 <body>
-    <section class="template1">
-        <div class="container">
-            <div class="izquierda">
-                <div class="container-video">
-                    <img class="video" src="/static/video2.gif">
-                    <div class="overlay"></div>
-                </div>
-                <div class="contenido-izquierda">
-                    <div>
-                        <a class="logo-link" href="192.168.1.19:8080/">
-                            <img class="logo" src="/static/logoBlanco.png">
-                        </a>
-                    </div>
-                    <div>
-                        <h1 class="titulo">
-                            ¡Hey! Nos alegra que quieras ser parte de este equipo
-                        </h1>
-                        <p>
-                            We are glad to see you again! Get access to your Orders,
-                            Wishlist Recommendations.Nulla facilisi. Nullam in magna
-                            id dolor blandit rutrum eget vulputate augue sed eu leo
-                            eget risus dummy text here now ready works imperdiet.
-                        </p>
-                    </div>
-                    <div class="container-list">
-                        <ul>
-                            <li>
-                                <a href="https://facebook.com">
-                                    <img class="redes-sociales" src="/static/icons/facebook.png" alt="facebook">
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://google.com">
-                                    <img class="redes-sociales" src="/static/icons/gmail.png" alt="google">
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://twitter.com">
-                                    <img class="redes-sociales" src="/static/icons/twitter.png" alt="twitter">
-                                </a>
-                            </li>
-                        </ul>
-                        <div>
-                            Tagnet.pro © 2023. Creado por Conecta.NET
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="derecha">
-                <div class="contenido-derecha">
-                    <div id="form-container" class="flip-container">
-                        <div class="front">
-                            <h2 class="title-static">Registrarse</h2>
-                            <div class="form-step">
-                                <h2 class="title-label">
-                                    Información Personal
-                                </h2>
-                                <form action="/signup" id="form-register" method="post"
-                                    enctype="application/x-www-form-urlencoded">
-                                    <div class="form-group">
-                                        <input id="email" type="email" class="form-control" name="email"
-                                            placeholder="Correo">
-                                    </div>
-                                    <div class="form-group">
-                                        <input id="password" type="password" class="form-control" name="password"
-                                            placeholder="Contraseña">
-                                    </div>
-                                    <div class="form-group">
-                                        <input id="confirm-password" type="password" class="form-control"
-                                            name="confirm-password" placeholder="Confirmar Contraseña">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="submit" name="submit" class="send-button" value="Enviar">
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="form-group">
-                                <p class="label-change">¿Ya eres usuario de tagnet? <input type="button" name="login"
-                                        class="login-button change-button" value="Iniciar Sesión"></p>
-                            </div>
-                        </div>
-                        <div class="back">
-                            <h2 class="title-static">
-                                ¡Bienvenido de Vuelta!
-                            </h2>
-                            <form action="/login" id="form-login" method="post"
-                                enctype="application/x-www-form-urlencoded">
-                                <h2 class="title-label">
-                                    Iniciar Sesión
-                                </h2>
-                                <div class="form-group">
-                                    <input id="email-login" type="email" class="form-control" name="email"
-                                        placeholder="Correo">
-                                </div>
-                                <div class="form-group">
-                                    <input id="password-login" type="password" class="form-control" name="password"
-                                        placeholder="Contraseña">
-                                </div>
-                                <div class="form-group">
-                                    <input type="submit" name="submit" class="send-button" value="Enviar">
-                                </div>
-                            </form>
-                            <div class="form-group">
-                                <p class="label-change">¿Aun no te haz registrado? <input type="button" name="login"
-                                        class="login-button change-button" value="Registrarse"></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div id="container">
+        <div>
+            <img class="logo" src="/static/logoLight.png" alt="logo">
         </div>
-    </section>
+        <% if (userData && userData.length> 0) { %>
+            <div class="imageBanner-container">
+                <img class="img2" src="http://192.168.1.30:8080<%= userData[0].banner_image %>" alt="banner">
+            </div>
+            <div class="imageProfile-container">
+                <img class="img" src="http://192.168.1.30:8080<%= userData[0].profile_image_url %>"
+                    alt="Imagen de Perfil">
+            </div>
+            <div class="name-container">
+                <h1 class="name">
+                    <%= userData[0].name %>
+                </h1>
+            </div>
+            <div class="description-container">
+                <p class="description">
+                    <%= userData[0].description %>
+                </p>
+            </div>
+            <div class="app-container">
+                <div class="button-container">
+                    <% for (const key in linksUser) { %>
+                        <div class="container2">
+                            <button class="button" data-value="<%= linksUser[key] %>">
+                                <img class="imageButtons" src="<%= imageMappings[key] %>" alt="<%= key %> Image">
+                            </button>
+                            <p class="button-label">
+                                <%= key %>
+                            </p>
+                        </div>
+                        <% } %>
+                </div>
+            </div>
 
-    <script>
-        $(document).ready(function () {
-            // Manejar clic en el botón de iniciar sesión
-            $('.login-button').click(function () {
-                $('#form-container').toggleClass('flipped');
-            });
-        });
+            <script>
+                const buttons = document.querySelectorAll('.button');
 
-    </script>
+                buttons.forEach(button => {
+                    button.addEventListener('click', function () {
+                        const value = this.getAttribute('data-value');
+                        if (value) {
+                            window.open(value, '_blank'); // Abre el enlace en una nueva pestaña
+                        }
+                    });
+                });
+            </script>
+    </div>
+    <% } else { %>
+        <p>Usuario no encontrado.</p>
+        <% } %>
+            </div>
 </body>
 
 </html>
