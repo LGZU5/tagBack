@@ -119,6 +119,7 @@ li {
     z-index: 1;
     margin-left: -7vw;
     width: 70%;
+    min-height: 500px ;
     background-color: #ffffff;
     padding: 5vh 70px 15vh 70px;
     border-radius: 20px;

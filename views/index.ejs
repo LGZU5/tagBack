@@ -39,17 +39,17 @@
                         <ul>
                             <li>
                                 <a href="https://facebook.com">
-                                    <img class="redes-sociales" src="/static/icons/facebook.png" alt="facebook">
+                                    <img class="redes-sociales" src="/static/icons/instagram.png" alt="facebook">
                                 </a>
                             </li>
                             <li>
                                 <a href="https://google.com">
-                                    <img class="redes-sociales" src="/static/icons/gmail.png" alt="google">
+                                    <img class="redes-sociales" src="/static/icons/facebook.png" alt="google">
                                 </a>
                             </li>
                             <li>
                                 <a href="https://twitter.com">
-                                    <img class="redes-sociales" src="/static/icons/twitter.png" alt="twitter">
+                                    <img class="redes-sociales" src="/static/icons/youtube.png" alt="twitter">
                                 </a>
                             </li>
                         </ul>
@@ -68,8 +68,11 @@
                                 <h2 class="title-label">
                                     Información Personal
                                 </h2>
-                                <form action="/signup" id="form-register" method="post"
-                                    enctype="application/x-www-form-urlencoded">
+                                <form id="form-register">
+                                    <div class="form-group">
+                                        <input id="name" type="text" class="form-control" name="name"
+                                            placeholder="Nombre">
+                                    </div>
                                     <div class="form-group">
                                         <input id="email" type="email" class="form-control" name="email"
                                             placeholder="Correo">
@@ -90,6 +93,8 @@
                             <div class="form-group">
                                 <p class="label-change">¿Ya eres usuario de tagnet? <input type="button" name="login"
                                         class="login-button change-button" value="Iniciar Sesión"></p>
+
+                                <p id="response-message" class="response-message"></p>
                             </div>
                         </div>
                         <div class="back">
@@ -130,8 +135,38 @@
             $('.login-button').click(function () {
                 $('#form-container').toggleClass('flipped');
             });
-        });
 
+            // Manejar envío de formulario por Ajax
+            $('#form-register').submit(function (event) {
+                event.preventDefault(); // Evitar la acción por defecto del formulario
+
+                var formData = $(this).serialize(); // Serializar datos del formulario
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/signup', // URL a la que se enviará la solicitud
+                    data: formData,
+                    success: function (response) {
+                        // Manejar la respuesta del servidor
+                        if (response.status === 'success') {
+                            // Mostrar mensaje de éxito en el frontend
+                            $('#response-message').text('Registro exitoso: ' + response.message).removeClass('error-message').addClass('success-message');
+                        } else {
+                            // Mostrar mensaje de error en el frontend
+                            $('#response-message').text('Error en el registro: ' + response.message).removeClass('success-message').addClass('error-message');
+                        }
+                        // Puedes agregar aquí código adicional según tus necesidades
+                    },
+                    error: function (error) {
+                        // Manejar errores de la solicitud
+                        console.error('Error en el registro:', error);
+                        // Mostrar mensaje de error en el frontend
+                        $('#response-message').text('Error en el registro: ' + error.responseJSON.error).removeClass('success-message').addClass('error-message');
+                        // Puedes agregar aquí código adicional para manejar el error
+                    }
+                });
+            });
+        });
     </script>
 </body>
 
