@@ -64,17 +64,12 @@
                     <div id="form-container" class="flip-container">
                         <div class="front">
                             <h2 class="title-static">Registrarse</h2>
-                            <span id="step-info">Paso 1 de 3</span>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0"
-                                    aria-valuemax="100"></div>
-                            </div>
-                            <form action="/signup" id="form-register" method="post"
-                                enctype="application/x-www-form-urlencoded">
-                                <div class="form-step">
-                                    <h2 class="title-label">
-                                        Información Personal
-                                    </h2>
+                            <div class="form-step">
+                                <h2 class="title-label">
+                                    Información Personal
+                                </h2>
+                                <form action="/signup" id="form-register" method="post"
+                                    enctype="application/x-www-form-urlencoded">
                                     <div class="form-group">
                                         <input id="email" type="email" class="form-control" name="email"
                                             placeholder="Correo">
@@ -88,23 +83,10 @@
                                             name="confirm-password" placeholder="Confirmar Contraseña">
                                     </div>
                                     <div class="form-group">
-                                        <input type="button" name="next" class="next-button" value="Siguiente">
+                                        <input type="submit" name="submit" class="send-button" value="Enviar">
                                     </div>
-                                </div>
-                                <div class="form-step">
-                                    <h2 class="title-label">
-                                        Información Empresarial
-                                    </h2>
-                                    <div class="form-group">
-                                        <input id="empresa" type="text" class="form-control" name="empresa"
-                                            placeholder="Empresa">
-                                    </div>
-                                    <div class="form-group-buttons">
-                                        <input type="button" name="previous" class="previous-button" value="Anterior">
-                                        <input type="button" name="next" class="next-button" value="Siguiente">
-                                    </div>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                             <div class="form-group">
                                 <p class="label-change">¿Ya eres usuario de tagnet? <input type="button" name="login"
                                         class="login-button change-button" value="Iniciar Sesión"></p>
@@ -120,15 +102,15 @@
                                     Iniciar Sesión
                                 </h2>
                                 <div class="form-group">
-                                    <input id="email" type="email" class="form-control" name="email"
+                                    <input id="email-login" type="email" class="form-control" name="email"
                                         placeholder="Correo">
                                 </div>
                                 <div class="form-group">
-                                    <input id="password" type="password" class="form-control" name="password"
+                                    <input id="password-login" type="password" class="form-control" name="password"
                                         placeholder="Contraseña">
                                 </div>
                                 <div class="form-group">
-                                        <input type="submit" name="submit" class="previous-button" value="Enviar">
+                                    <input type="submit" name="submit" class="send-button" value="Enviar">
                                 </div>
                             </form>
                             <div class="form-group">
@@ -142,55 +124,6 @@
         </div>
     </section>
 
-    <script>
-        $(document).ready(function () {
-            // Al cargar la página, ocultar todos los form-steps excepto el primero
-            $('.form-step').not(':first').hide();
-
-            // Configurar la barra de progreso
-            var totalSteps = $('.form-step').length;
-            var currentStep = 1;
-            var progressBar = $('.progress-bar');
-            var stepInfo = $('#step-info');
-
-            updateProgressBar();
-
-            // Al hacer clic en el botón "Next"
-            $('.next-button').click(function () {
-                // Ocultar el form-step actual
-                $(this).closest('.form-step').hide();
-
-                // Mostrar el siguiente form-step
-                var nextStep = $(this).closest('.form-step').next('.form-step');
-                nextStep.show();
-
-                // Actualizar el progreso
-                currentStep++;
-                updateProgressBar();
-            });
-
-            $('.previous-button').click(function () {
-                // Ocultar el form-step actual
-                $(this).closest('.form-step').hide();
-
-                // Mostrar el form-step anterior
-                var prevStep = $(this).closest('.form-step').prev('.form-step');
-                prevStep.show();
-
-                // Actualizar el progreso
-                currentStep--;
-                updateProgressBar();
-            });
-
-            function updateProgressBar() {
-                var progress = (currentStep / totalSteps) * 100;
-                progressBar.width(progress + '%').attr('aria-valuenow', progress);
-
-                // Actualizar el label del paso actual
-                stepInfo.text('Paso ' + currentStep + ' de ' + totalSteps);
-            }
-        });
-    </script>
     <script>
         $(document).ready(function () {
             // Manejar clic en el botón de iniciar sesión
