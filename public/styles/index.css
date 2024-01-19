@@ -120,7 +120,7 @@ li {
     margin-left: -7vw;
     width: 70%;
     background-color: #ffffff;
-    padding: 30px 90px 110px 70px;
+    padding: 5vh 70px 15vh 70px;
     border-radius: 20px;
     box-shadow: 0 0 100px 0 rgba(0, 0, 0, 0.1)
 }
@@ -179,7 +179,7 @@ li {
     background-color: #fff;
     background-clip: padding-box;
     border: 1px solid #ced4da;
-    border-radius: 25px;
+    border-radius: 10px;
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
     box-shadow: none;
     padding: 10px 0px 10px 20px;
@@ -229,12 +229,6 @@ li {
     transform: rotateY(180deg);
 }
 
-#form-container.flipped {
-    padding: 30px 70px 110px 90px;
-}
-
-
-
 .back {
     transform: rotateY(180deg);
     display: none;
@@ -263,7 +257,13 @@ li {
     background-color: transparent;
 }
 
-
 .label-change {
     color: #14133b;
+}
+
+.error-message {
+    color: #f10909;
+    position: absolute;
+    margin-top: -22px;
+    font-size: 14px;
 }

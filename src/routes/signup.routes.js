@@ -19,23 +19,23 @@ router.post('/signup', async (req, res) => {
     // Validación de formato de correo electrónico
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-        return res.status(400).json("El formato del correo electrónico no es válido");
+        return res.status(400).json({error: "El formato del correo electrónico no es válido"});
     }
 
     // Validación de correo electrónico único en la base de datos
     try {
         const emailExists = await db.checkEmailExists(email);
         if (emailExists) {
-            return res.status(400).json("El correo electrónico ya está registrado");
+            return res.status(400).json({error: "El correo electrónico ya está registrado"});
         }
     } catch (error) {
         console.error(error);
-        return res.status(500).json("Error en la validación de correo electrónico");
+        return res.status(500).json({error: "Error en la validación de correo electrónico"});
     }
 
     // Validación de contraseña: mínimo 8 caracteres
     if (password.length < 8 || password !== confirmPassword) {
-        return res.status(400).json("La contraseña no es valida");
+        return res.status(400).json({error: "La contraseña no es valida"});
     }
 
     try {
@@ -46,10 +46,10 @@ router.post('/signup', async (req, res) => {
         const userId = await db.signUp(name, email, hashedPassword);
 
         // Respuesta exitosa
-        res.status(200).json(`Registro exitoso para ${email} con ID ${userId}`);
+        res.status(200).json({error: `Registro exitoso para ${email} con ID ${userId}`});
     } catch (error) {
         console.error(error);
-        res.status(500).json("Error en el registro");
+        res.status(500).json({error: "Error en el registro"});
     }
 });
 
