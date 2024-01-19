@@ -1,13 +1,13 @@
 const { connectDatabase, closeDatabase } = require('./db');
 
-async function signUp(validEmail, cryptPass) {
+async function signUp(email, cryptPass) {
     const { client, db } = await connectDatabase();
 
     try {
         const usuarios = db.collection('data_users');
 
         // Inserta el nuevo usuario
-        const result = await usuarios.insertOne({ email: validEmail, password: cryptPass });
+        const result = await usuarios.insertOne({ email: email, password: cryptPass });
         const userId = result.insertedId;
 
         return userId; // Devuelve el ID del usuario insertado
