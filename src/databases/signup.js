@@ -1,14 +1,24 @@
 const { connectDatabase, closeDatabase } = require('./db');
 const UserModel = require('./modeloUsers');
 
-async function signUp(email, cryptPass) {
+async function signUp(name, email, cryptPass) {
     const { client, db } = await connectDatabase();
 
     try {
         const usuarios = db.collection('data_users');
 
         // Inserta el nuevo usuario
-        const result = await usuarios.insertOne({ email: email, password: cryptPass });
+        const result = await usuarios.insertOne({
+            email: email,
+            password: cryptPass,
+            perfil1:{
+                nombre: name,
+                telefono: "",
+                foto: "",
+                links: [],
+                apps: []
+            }
+        });
         const userId = result.insertedId;
 
         return userId; // Devuelve el ID del usuario insertado

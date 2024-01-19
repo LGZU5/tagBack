@@ -2,10 +2,12 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const db = require('../databases/signup');
+const dotenv = require('dotenv');
+dotenv.config();
+
+const secretKey = process.env.SECRET_KEY;
 
 
-const secretKey = 'abcdefghijk';
- 
 router.post('/signup', async (req, res) => {
     console.log(req.body);
     
@@ -41,7 +43,7 @@ router.post('/signup', async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Llama a la función signUp para guardar los datos en la base de datos
-        const userId = await db.signUp(email, hashedPassword);
+        const userId = await db.signUp(name, email, hashedPassword);
 
         // Respuesta exitosa
         res.status(200).json(`Registro exitoso para ${email} con ID ${userId}`);
