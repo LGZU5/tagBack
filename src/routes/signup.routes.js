@@ -5,7 +5,7 @@ const db = require('../databases/signup');
 
 
 const secretKey = 'abcdefghijk';
-
+ 
 router.post('/signup', async (req, res) => {
     console.log(req.body);
     

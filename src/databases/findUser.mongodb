@@ -1,5 +1,0 @@
-// Coneccion a la base de datos
-use("db")
-
-//db.user.find({})
-db.data_users.deleteMany({})
