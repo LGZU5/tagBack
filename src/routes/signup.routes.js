@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const db = require('../databases/auth');
 
 const secretKey = 'abcdefghijk';
-
+ 
 router.post('/signup', async (req, res) => {
     console.log(req.body);
 
