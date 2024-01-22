@@ -1,6 +1,6 @@
 const { connectDatabase, closeDatabase } = require('./db');
 
-async function signUp(name, email, cryptPass, link) {
+async function signUp(name, email, cryptPass, generatedNickname, link) {
     const { client, db } = await connectDatabase();
 
     try {
@@ -17,6 +17,7 @@ async function signUp(name, email, cryptPass, link) {
                 name: "",
                 telefono: "",
                 foto: "",
+                nickname: generatedNickname,
                 links: [link],
                 apps: [[]]
             }

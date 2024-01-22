@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const db = require('../databases/signup');
-const uc = require('../databases/userCommands');
+const nickname = require('../databases/userCommands');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -38,12 +38,12 @@ router.post('/signup', async (req, res) => {
     }
 
     try {
-        const link = await uc.nicknameGenerator(name);
+        const {generatedNickname, link} = await nickname.nicknameGenerator(name);
         // Encripta la contraseña antes de guardarla en la base de datos
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Llama a la función signUp para guardar los datos en la base de datos
-        const userId = await db.signUp(name, email, hashedPassword,link);
+        const userId = await db.signUp(name, email, hashedPassword,generatedNickname, link);
 
         // Respuesta exitosa
         res.status(200).json({status: 'success', message: `Registro exitoso para ${email} con ID ${userId}`});
